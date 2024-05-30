@@ -1,0 +1,6 @@
+/env/*
+/*.idea
+main_db.py
+/__init__.py
+task.md
+
