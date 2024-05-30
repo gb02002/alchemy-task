@@ -1,15 +1,14 @@
-from typing import List
+from typing import List, Sequence
 from sqlalchemy import text
 from others_and_setUps import users, engine
 
 
-def query_users(min_age, min_avg_heart_rate, date_from, date_to) -> [List[users], float]:
+def query_users(min_age, min_avg_heart_rate, date_from, date_to) -> Sequence[users]:
     """Nested Select with wierd order, faster then others"""
 
     test = text('SELECT hr.user_id, avg(hr.heart_rate) FROM heart_rates hr JOIN (SELECT id FROM users WHERE age > '
                 ':min_age) u ON u.id = hr.user_id WHERE timestamp BETWEEN :date_from AND :date_to GROUP BY user_id '
-                'HAVING avg(heart_rate) > :min_avg_heart_rate;'
-                )
+                'HAVING avg(heart_rate) > :min_avg_heart_rate;')
 
     with engine.connect() as conn:
         result = conn.execute(test, {"min_age": min_age, "date_from": date_from, "date_to": date_to,
