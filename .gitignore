@@ -1,4 +1,5 @@
 /env/*
+*.pyc
 /*.idea
 main_db.py
 /__init__.py
